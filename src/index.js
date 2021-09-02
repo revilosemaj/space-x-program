@@ -13,10 +13,15 @@ import { requestLaunchData, searchDataList, requestLaunchYear } from './reducers
 import './index.css';
 
 const logger = createLogger()
+const Middlewares = [thunkMiddleware]
+
+if (process.env.NODE_ENV === 'development') {
+  Middlewares.push(logger)
+}
 
 const rootReducers = combineReducers({ requestLaunchData, searchDataList, requestLaunchYear })
 
-const store = createStore(rootReducers, applyMiddleware(thunkMiddleware, logger))
+const store = createStore(rootReducers, applyMiddleware(...Middlewares))
 
 ReactDOM.render(
   <Provider store={store}>
